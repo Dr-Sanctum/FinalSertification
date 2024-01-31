@@ -34,7 +34,7 @@ namespace UserAPI.Controllers
         {
             try
             {
-                _userRepository.UserAdd(name, userLogin.Email, userLogin.Password, RoleId.Admin);
+                _userRepository.UserAdd(name, userLogin.Email, userLogin.Password, UserRole.Administrator);
             }
             catch (Exception e)
             {
@@ -50,7 +50,7 @@ namespace UserAPI.Controllers
         {
             try
             {
-                _userRepository.UserAdd(name, userLogin.Email, userLogin.Password, RoleId.User);
+                _userRepository.UserAdd(name, userLogin.Email, userLogin.Password, UserRole.User);
             }
             catch (Exception e)
             {
@@ -66,8 +66,9 @@ namespace UserAPI.Controllers
         {
             try
             {
+                
                 var roleId = _userRepository.UserCeck(userLogin.Email, userLogin.Password);
-                var user = new UserModel { Email = userLogin.Email, Role = RoleToRoleId(roleId) };
+                var user = new UserModel { Email = userLogin.Email, Role = roleId};
                 var token = GenerateToken(user);
                 return Ok(token);
             }catch (Exception e)
@@ -76,19 +77,7 @@ namespace UserAPI.Controllers
             }
         }
 
-        private static UserRole RoleToRoleId(RoleId id)
-        {
-            if (id == RoleId.Admin)
-            {
-                return UserRole.Administrator;
-            }
-            else
-            {
-                return UserRole.User;
-            }
 
-
-        }
 
         private string GenerateToken(UserModel user)
         {

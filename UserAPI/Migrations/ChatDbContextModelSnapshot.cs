@@ -41,7 +41,7 @@ namespace UserAPI.Migrations
                         new
                         {
                             RoleId = 0,
-                            Email = "Admin"
+                            Email = "Administrator"
                         },
                         new
                         {
@@ -91,6 +91,9 @@ namespace UserAPI.Migrations
                         .HasName("users_pkey");
 
                     b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.HasIndex("RoleId");

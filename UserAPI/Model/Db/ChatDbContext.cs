@@ -3,7 +3,7 @@
 namespace UserAPI.Model.Db
 {
 
-    partial class ChatDbContext : DbContext
+     public partial class ChatDbContext : DbContext
     {
         private readonly IConfiguration _config;
 
@@ -26,6 +26,7 @@ namespace UserAPI.Model.Db
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.Id).HasName("users_pkey");
+                entity.HasIndex(e => e.Name).IsUnique();
                 entity.HasIndex(e => e.Email).IsUnique();
                 entity.ToTable("users");
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -43,8 +44,8 @@ namespace UserAPI.Model.Db
 
             modelBuilder
                 .Entity<Role>().HasData(
-                Enum.GetValues(typeof(RoleId))
-                .Cast<RoleId>()
+                Enum.GetValues(typeof(UserRole))
+                .Cast<UserRole>()
                 .Select(e => new Role()
                 {
                     RoleId = e,

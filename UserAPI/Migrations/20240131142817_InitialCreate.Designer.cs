@@ -11,7 +11,7 @@ using UserAPI.Model.Db;
 namespace UserAPI.Migrations
 {
     [DbContext(typeof(ChatDbContext))]
-    [Migration("20240131081247_InitialCreate")]
+    [Migration("20240131142817_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -44,7 +44,7 @@ namespace UserAPI.Migrations
                         new
                         {
                             RoleId = 0,
-                            Email = "Admin"
+                            Email = "Administrator"
                         },
                         new
                         {
@@ -94,6 +94,9 @@ namespace UserAPI.Migrations
                         .HasName("users_pkey");
 
                     b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.HasIndex("RoleId");

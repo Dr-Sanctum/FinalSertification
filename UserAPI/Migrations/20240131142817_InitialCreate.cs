@@ -54,7 +54,7 @@ namespace UserAPI.Migrations
                 columns: new[] { "RoleId", "Email" },
                 values: new object[,]
                 {
-                    { 0, "Admin" },
+                    { 0, "Administrator" },
                     { 1, "User" }
                 });
 
@@ -62,6 +62,12 @@ namespace UserAPI.Migrations
                 name: "IX_users_email",
                 table: "users",
                 column: "email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_users_name",
+                table: "users",
+                column: "name",
                 unique: true);
 
             migrationBuilder.CreateIndex(

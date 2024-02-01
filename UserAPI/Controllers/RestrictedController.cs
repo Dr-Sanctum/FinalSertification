@@ -14,6 +14,7 @@ namespace UserAPI.Controllers
         [Authorize(Roles = "Administrator")]
         public IActionResult AdminEndPoint()
         {
+            
             var currentuser = GetCurrenUser();
             return Ok($"Hi {currentuser.Role}");
         }

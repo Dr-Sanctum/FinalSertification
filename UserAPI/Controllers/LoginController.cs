@@ -27,37 +27,6 @@ namespace UserAPI.Controllers
             _userRepository = userRepository;
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("AddAdmin")]
-        public ActionResult AddAdmin([FromBody] LoginModel userLogin, string name)
-        {
-            try
-            {
-                _userRepository.UserAdd(name, userLogin.Email, userLogin.Password, UserRole.Administrator);
-            }
-            catch (Exception e)
-            {
-
-                return StatusCode(500, e.Message);
-            }
-            return Ok();
-        }
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("AddUser")]
-        public ActionResult AddUser([FromBody] LoginModel userLogin, string name)
-        {
-            try
-            {
-                _userRepository.UserAdd(name, userLogin.Email, userLogin.Password, UserRole.User);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
-            return Ok();
-        }
 
         [AllowAnonymous]
         [HttpPost]

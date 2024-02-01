@@ -18,7 +18,7 @@ namespace UserAPI.Controllers
     {
         private readonly IUserRepository _userRepository;
 
-        public GetUserController(IConfiguration configuration, IUserRepository userRepository)
+        public GetUserController(IUserRepository userRepository)
         {
 
             

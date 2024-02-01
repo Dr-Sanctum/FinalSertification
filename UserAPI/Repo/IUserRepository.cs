@@ -7,6 +7,8 @@ namespace UserAPI.Repo
     {
         public void UserAdd(string name, string email, string password, UserRole roleId);
 
+        public void UserDelete(string email);
+
         public List<UserModel> GetUsers();
         public UserRole UserCeck(string email, string password);
     }

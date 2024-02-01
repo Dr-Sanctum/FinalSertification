@@ -94,5 +94,23 @@ namespace UserAPI.Repo
                 }
             }
         }
+
+        public void UserDelete(string email)
+        {
+            using (var context = new ChatDbContext())
+            {
+                var user = context.Users.FirstOrDefault(x => x.Email == email);
+                if (user == null)
+                {
+                    throw new Exception("Пользователь не существует");
+                }
+                else
+                {
+                    context.Users.Remove(user);
+                    context.SaveChanges() ;
+                }
+            }
+                
+        }
     }
 }

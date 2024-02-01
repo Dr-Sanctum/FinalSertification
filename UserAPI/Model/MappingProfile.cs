@@ -9,7 +9,7 @@ namespace UserAPI.Model
         public MappingProfile()
         {
             CreateMap<UserModel, User>()
-                .ForMember(dest => dest.Id, opts => opts.Ignore())
+                .ForMember(dest => dest.Id, opts => opts.MapFrom(y => y.Id))
                 .ForMember(dest => dest.Name, opts => opts.MapFrom(y => y.Name))
                 .ForMember(dest => dest.Email, opts => opts.MapFrom(y => y.Email))
                 .ForMember(dest => dest.Password, opts => opts.MapFrom(y => y.Password))

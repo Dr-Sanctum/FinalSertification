@@ -57,7 +57,6 @@ namespace UserAPI.Repo
                 user.Name = name;
                 user.Email = email;
                 user.RoleId = roleId;
-
                 user.Salt = new byte[16];
                 new Random().NextBytes(user.Salt);
                 var data = Encoding.ASCII.GetBytes(password).Concat(user.Salt).ToArray();
@@ -92,6 +91,19 @@ namespace UserAPI.Repo
                 {
                     throw new Exception("Wrong password");
                 }
+            }
+        }
+
+        public int GetId(string email)
+        {
+            using (var context = new ChatDbContext())
+            {
+                var user = context.Users.FirstOrDefault(x => x.Email == email);
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
+                return user.Id;
             }
         }
 

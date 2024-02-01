@@ -53,3 +53,5 @@ E:\гикбрэйнс\Итоговая\FinalSertification\UserAPI\obj\Debug\net7
 E:\гикбрэйнс\Итоговая\FinalSertification\UserAPI\obj\Debug\net7.0\ref\UserAPI.dll
 E:\гикбрэйнс\Итоговая\FinalSertification\UserAPI\bin\Debug\net7.0\AutoMapper.dll
 E:\гикбрэйнс\Итоговая\FinalSertification\UserAPI\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+E:\гикбрэйнс\Итоговая\FinalSertification\UserAPI\bin\Debug\net7.0\Autofac.dll
+E:\гикбрэйнс\Итоговая\FinalSertification\UserAPI\bin\Debug\net7.0\Autofac.Extensions.DependencyInjection.dll

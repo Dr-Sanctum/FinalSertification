@@ -56,7 +56,7 @@ namespace UserAPI.Controllers
 
             var claim = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, _userRepository.GetId(user.Email).ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Email),
                 new Claim(ClaimTypes.Role, user.Role.ToString()),
             };

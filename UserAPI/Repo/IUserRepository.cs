@@ -10,7 +10,6 @@ namespace UserAPI.Repo
         public void UserDelete(string email);
 
         public List<UserModel> GetUsers();
-        public int GetId(string email);
         public UserRole UserCeck(string email, string password);
     }
 }

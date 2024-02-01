@@ -1,9 +1,13 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Cryptography;
 using System.Text;
 using UserAPI.Model;
+using UserAPI.Model.Db;
 using UserAPI.Repo;
 
 internal class Program
@@ -18,11 +22,12 @@ internal class Program
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
+        builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
         // Add services to the container.
         
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -53,6 +58,15 @@ internal class Program
             });
         });
 
+        var config = new ConfigurationBuilder();
+        config.AddJsonFile("appsettings.json");
+        var cfg = config.Build();
+
+        builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+        {
+            containerBuilder.Register(c => new ChatDbContext(cfg.GetConnectionString("db"))).InstancePerDependency();
+        });
+
 
         builder.Services.AddTransient<IUserRepository, UserRepository>();
         
@@ -66,7 +80,7 @@ internal class Program
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = builder.Configuration["Jwt:Issuer"],
                 ValidAudience = builder.Configuration["Jwt:Audience"],
-                //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                
                 IssuerSigningKey = new RsaSecurityKey(GetPublicKey())
 
             };

@@ -1,26 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
+using System.IO;
 namespace UserAPI.Model.Db
 {
 
      public partial class ChatDbContext : DbContext
     {
-        private readonly IConfiguration _config;
+        private string _connectionString;
+        public ChatDbContext() 
+        { 
 
-        public ChatDbContext()
-        {
-            this.ChangeTracker.LazyLoadingEnabled = true;
-            _config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .AddEnvironmentVariables()
-            .Build();
         }
 
+        public ChatDbContext(string connectionString)
+        {
+            _connectionString = connectionString;
+
+        }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseLazyLoadingProxies().UseNpgsql("Host=localhost;Username=postgres;Password=example;Database=ChatDb");
-                                                                //_config.GetConnectionString("ConnectionString")
+        {
+            optionsBuilder.UseLazyLoadingProxies().UseNpgsql(_connectionString);
+        }
+
+        
+                                                                
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(entity =>
@@ -36,7 +40,7 @@ namespace UserAPI.Model.Db
                 entity.Property(e => e.Salt).HasColumnName("salt");
                 entity.Property(e => e.RoleId).HasConversion<int>();
             });
-
+        
             modelBuilder
                 .Entity<Role>()
                 .Property(e => e.RoleId)

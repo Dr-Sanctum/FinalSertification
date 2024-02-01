@@ -9,17 +9,18 @@ namespace UserAPI.Repo
     public class UserRepository : IUserRepository
     {
         private IMapper _mapper;
-        
-        
-        public UserRepository(IMapper mapper)
+
+        private ChatDbContext _chatDbContext;
+        public UserRepository(IMapper mapper, ChatDbContext chatDbContext)
         {
             this._mapper = mapper;
+            this._chatDbContext = chatDbContext;
         }
         public List<UserModel> GetUsers()
         {
-            using (var context = new ChatDbContext())
+            using (_chatDbContext)
             {
-                var temp = context.Users.ToList();
+                var temp = _chatDbContext.Users.ToList();
 
                 var result = new List<UserModel>();
                 foreach (var item in temp)
@@ -33,23 +34,23 @@ namespace UserAPI.Repo
         public void UserAdd(string name, string email, string password, UserRole roleId)
         {
             
-            using (var context  = new ChatDbContext())
+            using (_chatDbContext)
             {
                 if(roleId == UserRole.Administrator)
                 {
-                    var c = context.Users.Count(x => x.RoleId == UserRole.Administrator);
+                    var c = _chatDbContext.Users.Count(x => x.RoleId == UserRole.Administrator);
                     if (c > 0)
                     {
                         throw new Exception("Администратор должен быть один");
                     }
                 }
 
-                if (context.Users.FirstOrDefault(x => x.Name == name) !=null)
+                if (_chatDbContext.Users.FirstOrDefault(x => x.Name == name) !=null)
                 {
                     throw new Exception("Пользователь с таким именем существует");
                 }
 
-                if (context.Users.FirstOrDefault(x => x.Email == email) != null)
+                if (_chatDbContext.Users.FirstOrDefault(x => x.Email == email) != null)
                 {
                     throw new Exception("Пользователь с таким почтой существует");
                 }
@@ -64,17 +65,17 @@ namespace UserAPI.Repo
 
                 user.Password = shaM.ComputeHash(data);
 
-                context.Add(user);
-                context.SaveChanges();
+                _chatDbContext.Add(user);
+                _chatDbContext.SaveChanges();
             }
         }
 
 
         public UserRole UserCeck(string email, string password)
         {
-            using(var context = new ChatDbContext())
+            using(_chatDbContext)
             {
-                var user = context.Users.FirstOrDefault(x => x.Email == email);
+                var user = _chatDbContext.Users.FirstOrDefault(x => x.Email == email);
                 if (user == null)
                 {
                     throw new Exception("User not found");
@@ -94,32 +95,20 @@ namespace UserAPI.Repo
             }
         }
 
-        public int GetId(string email)
-        {
-            using (var context = new ChatDbContext())
-            {
-                var user = context.Users.FirstOrDefault(x => x.Email == email);
-                if (user == null)
-                {
-                    throw new Exception("User not found");
-                }
-                return user.Id;
-            }
-        }
 
         public void UserDelete(string email)
         {
-            using (var context = new ChatDbContext())
+            using (_chatDbContext)
             {
-                var user = context.Users.FirstOrDefault(x => x.Email == email);
+                var user = _chatDbContext.Users.FirstOrDefault(x => x.Email == email);
                 if (user == null)
                 {
                     throw new Exception("Пользователь не существует");
                 }
                 else
                 {
-                    context.Users.Remove(user);
-                    context.SaveChanges() ;
+                    _chatDbContext.Users.Remove(user);
+                    _chatDbContext.SaveChanges() ;
                 }
             }
                 

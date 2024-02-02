@@ -8,42 +8,36 @@ namespace MessageAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class SendMessageController : ControllerBase
+    public class GetMessagesController : ControllerBase
     {
         
         private readonly IMessageRepository _messageRepository;
 
-        public SendMessageController( IMessageRepository messageRepository)
+        public GetMessagesController( IMessageRepository messageRepository)
         {
             _messageRepository = messageRepository;
         }
         
 
         [HttpPost]
-        [Route("SendMessage")]
+        [Route("GetMessages")]
         [Authorize]
-        public IActionResult SendMessage(string sendTo, string text)
+        public ActionResult<List<MessageModel>> GetMessages()
         {
             try
             {
                 var currentuser = _messageRepository.GetCurrenUser(HttpContext);
 
-                var result = new MessageModel()
-                {
-                    EmailFrom = currentuser.Email,
-                    EmailTo = sendTo,
-                    Text = text
-                };
+                var result = _messageRepository.GetUnreadMessage(currentuser);
 
-                _messageRepository.SendMessage(result);
-                return Ok();
+                return result;
             }
             catch (Exception e)
             {
 
                 return StatusCode(500, e);
             }
-                
+
         }
 
     }

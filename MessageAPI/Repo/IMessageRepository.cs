@@ -7,6 +7,6 @@ namespace MessageAPI.Repo
     {
         public void SendMessage(MessageModel sendMessage);
         public List<MessageModel> GetUnreadMessage(UserModel user);
-       
+        public UserModel GetCurrenUser(HttpContext httpContext);
     }
 }

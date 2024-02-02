@@ -17,7 +17,7 @@ namespace MessageAPI.Repo
             this._messageDbContext = chatDbContext;
         }
 
-        public List<MessageModel> GetUnreadMessage()
+        public List<MessageModel> GetUnreadMessage(UserModel user)
         {
             throw new NotImplementedException();
         }
@@ -26,15 +26,8 @@ namespace MessageAPI.Repo
         {
             using (_messageDbContext)
             {
-                var message = new Message()
-                {
-                    Unread = true,
-                    EmailFrom = "a@a",
-                    EmailTo = "u@u",
-                    Text = "Привет"
-                };
 
-                _messageDbContext.Add(message);
+                _messageDbContext.Add(_mapper.Map<Message>(sendMessage));
                 _messageDbContext.SaveChanges();
             }
         }

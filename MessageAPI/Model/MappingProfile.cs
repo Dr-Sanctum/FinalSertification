@@ -16,7 +16,9 @@ namespace MessageAPI.Model
                 .ForMember(dest => dest.Salt, opts => opts.Ignore())
                 .ForMember(dest => dest.RoleId, opts => opts.MapFrom(y => y.Role))
                 .ReverseMap();
-            
+
+            CreateMap<MessageModel, Message>().ReverseMap();
+
         }
 
 

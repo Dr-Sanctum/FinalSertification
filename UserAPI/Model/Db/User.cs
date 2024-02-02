@@ -8,6 +8,6 @@
         public byte[] Password { get; set; }
         public byte[] Salt { get; set; }
         public UserRole RoleId { get; set; }
-        public virtual UserRole Role { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using MessageAPI.Model.Db;
 
-
-namespace UserAPI.Model
+namespace MessageAPI.Model
 {
     public class MappingProfile : Profile
     {
         public MappingProfile()
         {
-            /*
+            
             CreateMap<UserModel, User>()
                 .ForMember(dest => dest.Id, opts => opts.MapFrom(y => y.Id))
                 .ForMember(dest => dest.Name, opts => opts.MapFrom(y => y.Name))
@@ -16,7 +16,7 @@ namespace UserAPI.Model
                 .ForMember(dest => dest.Salt, opts => opts.Ignore())
                 .ForMember(dest => dest.RoleId, opts => opts.MapFrom(y => y.Role))
                 .ReverseMap();
-            */
+            
         }
 
 

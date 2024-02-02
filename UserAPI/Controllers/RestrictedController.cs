@@ -30,15 +30,18 @@ namespace UserAPI.Controllers
 
         private UserModel GetCurrenUser()
         {
+            var id = HttpContext.User.Identity as ClaimsIdentity;
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             if (identity != null)
             {
                 var userClaims = identity.Claims;
-                return new UserModel
+                var x = new UserModel
                 {
                     Name = userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value,
                     Role = (UserRole)Enum.Parse(typeof(UserRole), userClaims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value)
                 };
+
+                return x;
             }
             return null;
         }

@@ -6,10 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Security.Cryptography;
 using System.Text;
-using UserAPI.Model;
+using MessageAPI.Model;
 using MessageAPI.Model.Db;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using MessageAPI.Repo;
 
 internal class Program
 {
@@ -68,7 +69,7 @@ internal class Program
             containerBuilder.Register(c => new MessageDbContext(cfg.GetConnectionString("db"))).InstancePerDependency();
         });
 
-
+        builder.Services.AddTransient<IMessageRepository, MessageRepository>();
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
         {
             opt.TokenValidationParameters = new TokenValidationParameters
